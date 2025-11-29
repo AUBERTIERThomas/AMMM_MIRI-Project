@@ -15,17 +15,17 @@ def greedy(K, purchaseCost, R, A, energyCost, N, M):
   covered = set()            # pares (j,d) ya cubiertos - crossings j cubiertos los dias d
 
   
-  # ---------- 3) Bucle greedy ----------
+  # ---------- 3) Greedy loop ----------
   while (not is_solution(covered, N)) and C: # While is not ture
 
-      # Evaluar q(c,S) para todos los candidatos c ∈ C
+      # Evaluate q(c,S) for each c ∈ C
       best_c, best_q = evaluate_quality(C, covered, purchaseCost, energyCost)
       
       if best_c is None:
-          break # No hay candidato posible --> stop
+          break # No possible candidate --> stop
 
       
-      # ---------- 4) Añadir mejor candidato a S ----------
+      # ---------- 4) Add best candidate to S ----------
       # Constraint 3: Activation only if installed
       # Installed cuando añadimos a la solución, y la activación ya viene implicita en patterns que tiene c
       S.append(best_c)              # update set solutions S
@@ -36,7 +36,7 @@ def greedy(K, purchaseCost, R, A, energyCost, N, M):
       C = feseability(C, best_c)
 
  
-  # Uncovered --> this is only to print later in order to check the crossings that could not be covered.
+  # Uncovered --> this is only to print later in order to check what crossings were not able to be covered at days d.
   all_pairs = {(j, d) for j in range(N) for d in range(7)}
   uncovered = all_pairs - covered
 
