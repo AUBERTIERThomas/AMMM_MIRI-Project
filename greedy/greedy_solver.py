@@ -12,7 +12,7 @@ def greedy(K, purchaseCost, R, A, energyCost, N, M):
 
   # ---------- 2) Init solution set S ----------
   S = []                     # chosen cameras
-  covered = set()            # pares (j,d) ya cubiertos - crossings j cubiertos los dias d
+  covered = set()            # (j,d) -> crossings j coverd at day d
 
   
   # ---------- 3) Greedy loop ----------
@@ -56,4 +56,5 @@ def greedy(K, purchaseCost, R, A, energyCost, N, M):
 
       print("Feasible Greedy!")
       return S, covered, total_cost 
+
 
