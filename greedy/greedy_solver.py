@@ -32,8 +32,8 @@ def greedy(K, purchaseCost, R, A, energyCost, N, M):
       covered |= best_c["covers"]   # update covered 
 
       
-      # ---------- 5) Actualizar C (feasibilidad) ----------
-      C = feseability(C, best_c)
+      # ---------- 5) Update C (feasibilidad) ----------
+      C = feseability(C, best_c) # To discard crossings with a camera isntalled since Constraint 1
 
  
   # Uncovered --> this is only to print later in order to check what crossings were not able to be covered at days d.
@@ -56,5 +56,6 @@ def greedy(K, purchaseCost, R, A, energyCost, N, M):
 
       print("Feasible Greedy!")
       return S, covered, total_cost 
+
 
 
