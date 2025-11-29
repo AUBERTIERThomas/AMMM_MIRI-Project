@@ -1,15 +1,15 @@
 # ============= INSTANCE PATH ====================
-instancePath       = "instances/project1.dat";
+instancePath        = "instances/project.1.dat";
 solutionFile        = "solutions/project1.sol";   # Output DAT file (solution) 
 
 # ================= SOLVER =======================
-solver              = "Greeddy";          # By now only exists Greedy solver
+solver              = "Greedy";          # By now only exists Greedy solver
 
 # ================= GRASP PARAMETERS =======================
 alpha               = 0.7;                 # Alpha parameter for the GRASP solver.
 
 # ================= LOCAL SEARCH PARAMETERS =======================
-localSearch          = False;                # Enable local search?
+localSearch          = False;               # Enable local search?
 neighborhoodStrategy = "TaskExchange";      # Supported Neighborhoods: TaskExchange
 policy               = "BestImprovement";   # Supported Policies: FirstImprovement / BestImprovement
 

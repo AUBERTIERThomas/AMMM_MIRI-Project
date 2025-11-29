@@ -21,10 +21,10 @@ def init_C(K, R, A, N, M):
                             if p[d] == 1:
                                 # If the camera k at crossing i can cover crossing j at day d, then we have a candidate
                                 covers.add((j, d))
-                
+
                 # Constraint 2: Coverage of every crossing on every day by at least one operating camera
                 if covers:
-                    # We add as candidate as: at crossing i, camera k, during schedule p, can cover "covers" 
+                    # We add as candidate as: at crossing i, camera k, during schedule p, can cover "covers"
                     C.append({"i": i, "k": k, "pattern": p, "covers": covers})
     return C
 
@@ -62,7 +62,7 @@ def generate_patterns(A_k):
             blocks[0] += blocks[-1]   # Add consecutive days
             blocks.pop()              # remove last block (the one that includes Sunday) since we added it to the first one
 
-  
+
         # Constraint 5: Minimum 2-day operation period:
         if any(b < 2 for b in blocks):
             continue
@@ -93,7 +93,7 @@ def evaluate_quality(Candidates, covered, P, C):
 
         # Cost of this new candidate: purchase + energy * operational days
         purchase_cost  = P[c["k"]]
-        operating_cost = C[c["k"]] * sum(c["pattern"]) 
+        operating_cost = C[c["k"]] * sum(c["pattern"])
         cost = purchase_cost + operating_cost
 
         q = gain / cost   # quality: we measure the quality of the candidate by dividing its gain by its total cost
@@ -128,7 +128,7 @@ def feseability(C, best_c):
           # Discard since it is already in the solution set S
           continue
       if c["i"] == i_taken:
-          # Since we have installed a camera at crossing i (and following Constraint 1), 
+          # Since we have installed a camera at crossing i (and following Constraint 1),
           # we have to discard the rest of camera that can be placed at i
           continue
       new_C.append(c)

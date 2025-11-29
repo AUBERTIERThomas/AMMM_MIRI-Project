@@ -72,16 +72,11 @@ def write_solution(solution_path, S, covered, cost):
             return
 
         # Escribir X (cámaras instaladas)
-        f.write("Crossing, Camera, Days = [\n")
+        #f.write("Crossing, Camera, Days = [\n")
         for c in S:
-            f.write(f"  [ {c['i']} , {c['k']} , {c['pattern']} ],\n")
-        f.write("];\n\n")
+            f.write(f"Crossing {c['i']} , with camera model {c['k']},\noperates days: {c['pattern']},\ncovers (j, d): {c['covers']}\n\n")
+        #f.write("];\n\n")
 
-        # Escribir cobertura
-        f.write("Covered = [\n")
-        for (j, d) in sorted(covered):
-            f.write(f"  [ {j} , {d} ],\n")
-        f.write("];\n\n")
 
         # Coste total
         f.write(f"total_cost = {cost};\n")
@@ -185,5 +180,6 @@ def print_solution(S):
         i = c["i"]
         k = c["k"]
         pattern = c["pattern"]
-        print(f"Camera {idx+1}: crossing {i}, model {k}, operational days {pattern}")
+        covers = c["covers"]
+        print(f"Camera {idx+1}: crossing {i}, model {k}, operational days {pattern}. \nCovers the crossings (j,d) {covers}\n")
     print()

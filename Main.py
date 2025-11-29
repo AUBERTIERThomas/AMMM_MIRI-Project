@@ -25,7 +25,7 @@ instance_path   = BASE_DIR / config["instancePath"]
 solver          = config.get("solver", "Greedy")
 solution_file   = BASE_DIR / config.get("solutionFile", "solutions/solution.sol")
 localSearch     = config.get("localSearch", False)
-max_exec_time   = config.get("maxExecTime", 60)
+max_exec_time   = config.get("maxExecTime", 60) # Not sure how to stop when timeout
 
 
 # ------------------- READ DATA -------------------
@@ -49,7 +49,7 @@ if solver == "Greedy" and not localSearch:
     if S is not None:
         print_solution(S)
         # print_covered_matrix(covers, N) # If is feasible this always print the same since eveything is covered, so it is not necessary
-        print(f"Total cost: {cost}")
+        print(f"Total cost: {cost}") 
     else:
         print("Not feasible solution was faund for this data")
 

@@ -12,7 +12,7 @@ def greedy(K, purchaseCost, R, A, energyCost, N, M):
 
   # ---------- 2) Init solution set S ----------
   S = []                     # chosen cameras
-  covered = set()            # (j,d) -> crossings j coverd at day d
+  covered = set()            # pares (j,d) ya cubiertos - crossings j cubiertos los dias d
 
   
   # ---------- 3) Greedy loop ----------
@@ -33,10 +33,10 @@ def greedy(K, purchaseCost, R, A, energyCost, N, M):
 
       
       # ---------- 5) Update C (feasibilidad) ----------
-      C = feseability(C, best_c) # To discard crossings with a camera isntalled since Constraint 1
+      C = feseability(C, best_c)
 
  
-  # Uncovered --> this is only to print later in order to check what crossings were not able to be covered at days d.
+  # Uncovered --> this is only to print later in order to check what crossings were not able to be covered at days.
   all_pairs = {(j, d) for j in range(N) for d in range(7)}
   uncovered = all_pairs - covered
 
@@ -56,6 +56,4 @@ def greedy(K, purchaseCost, R, A, energyCost, N, M):
 
       print("Feasible Greedy!")
       return S, covered, total_cost 
-
-
 
