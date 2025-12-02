@@ -1,9 +1,9 @@
 # ============= INSTANCE PATH ====================
 instancePath        = "instances/project.1.dat";
-solutionFile        = "solutions/localsearch_bi.sol";   # Output DAT file (solution) 
+solutionFile        = "solutions/bbb.sol";   # Output DAT file (solution) 
 
 # ================= SOLVER =======================
-solver              = "Greedy";          # By now only exists Greedy solver
+solver              = "GRASP";          # Only suports Greedy or GRASP
 
 # ================= GRASP PARAMETERS =======================
 alpha               = 0.7;                 # Alpha parameter for the GRASP solver.

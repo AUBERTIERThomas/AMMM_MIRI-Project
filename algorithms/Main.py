@@ -10,9 +10,9 @@ from logger import (
     write_solution,    
 )
 
-from heuristics.greedy_solver import greedy
+from heuristics.greedy import greedy
 from heuristics.localsearch import localsearch
-# If we add more solvers add them here
+from heuristics.grasp import grasp
 
 
 # ------------------- CONFIG -------------------
@@ -27,6 +27,7 @@ solver          = config.get("solver", "Greedy")
 solution_file   = BASE_DIR / config.get("solutionFile", "solutions/solution.sol")
 localSearch     = config.get("localSearch", False)
 ls_policy       = config.get("policy", "FirstImprovement")
+alpha           = config.get("alpha", 0.1) # Default alpha? 0.1?
 max_exec_time   = config.get("maxExecTime", 60) # Not sure how to stop when timeout
 
 
@@ -35,6 +36,7 @@ K, P, R, A, C, N, M = read_instance(instance_path)
 
 
 # ------------------- SOLVERS EXECUTION -------------------
+# ------------------- GREEDY -------------------
 if solver == "Greedy" and not localSearch:
 
     start = time.perf_counter()      # START TIME
@@ -46,7 +48,8 @@ if solver == "Greedy" and not localSearch:
     exec_time = exec_time * 1000 # ms
     
     # save solution (even if it is not feasible)
-    write_solution(solution_file, S, covers, cost)
+    i = -1 # We are not using iterations for this solver
+    write_solution(solution_file, S, covers, cost, i)
 
     if S is not None:
         print_solution(S)
@@ -57,6 +60,7 @@ if solver == "Greedy" and not localSearch:
 
     print(f"\n=== Execution time:=== \n{exec_time:.6f} ms\n")
 
+# ------------------- GREEDY + LOCAL SEARCH -------------------
 elif solver == "Greedy" and localSearch:
     # Selecting policy for local search
     if ls_policy == "FirstImprovement": policy = 0
@@ -66,7 +70,8 @@ elif solver == "Greedy" and localSearch:
         print("\nError geting the policy, FirstImprovement is going to execute as the default one")
     
     start = time.perf_counter()      # START TIME
-    S, covers, cost = localsearch(K, P, R, A, C, N, M, policy) # Adapt para el FI y BI
+    S, _, _ = greedy(K, P, R, A, C, N, M)
+    S, covers, cost = localsearch(K, P, R, A, C, N, M, policy, S)
     end = time.perf_counter()        # END TIME
 
     # Execution time
@@ -74,7 +79,8 @@ elif solver == "Greedy" and localSearch:
     exec_time = exec_time * 1000 # ms
 
     # save solution (even if it is not feasible)
-    write_solution(solution_file, S, covers, cost)
+    i = -1 # We are not using iterations for this solver
+    write_solution(solution_file, S, covers, cost, i)
 
     if S is not None:
         print_solution(S)
@@ -85,8 +91,37 @@ elif solver == "Greedy" and localSearch:
 
     print(f"\n=== Execution time:=== \n{exec_time:.6f} ms\n")
 
+# ------------------- GRASP -------------------
 elif solver == "GRASP":
-    print("GRASP not available")
+    # Selecting policy for local search
+    if ls_policy == "FirstImprovement": policy = 0
+    elif ls_policy == "BestImprovement": policy = 1
+    else: 
+        policy = 0
+        print("\nError geting the policy, FirstImprovement is going to execute as the default one")
+    
+    maxIt = 200 # TODO: Comparar GRASP con CPLEX para ver que maxIt poner, si vemos que aumentamos maxIt y no hay mejora paramos
+
+    start = time.perf_counter()      # START TIME
+    S, covers, cost, i = grasp(K, P, R, A, C, N, M, policy, maxIt, alpha) 
+    end = time.perf_counter()        # END TIME
+
+    # Execution time
+    exec_time = end - start
+    exec_time = exec_time * 1000 # ms
+
+    # save solution (even if it is not feasible)
+    write_solution(solution_file, S, covers, cost, i)
+    
+    if S is not None:
+        print_solution(S)
+        # print_covered_matrix(covers, N) # If is feasible this always print the same since eveything is covered, so it is not necessary
+        print(f"=== Total cost: === \n{cost}") 
+    else:
+        print("Not feasible solution was faund for this data")
+
+    print(f"\n=== Execution time: === \n{exec_time:.6f} ms")
+    print(f"\n=== Nº iterations: === \n{i + 1} (max iterations:",maxIt,")\n")
 
 else:
     print("The selected solver is not implemented yet :( \nTry another configuration please")

@@ -83,6 +83,9 @@ def evaluate_quality(Candidates, covered, P, C):
     best_c = None
     best_q = -1.0
 
+    worst_c = None
+    worst_q = float("inf") # Not sure if this is a good init value
+
     for c in Candidates:
         # c: How many crossings (j,d) can I cover (from the left crossings)?
         new_covered = c["covers"] - covered # covers I can minus the ones that are already covered
@@ -102,8 +105,11 @@ def evaluate_quality(Candidates, covered, P, C):
             # We select the best candidate c --> the one with better quality q
             best_q = q
             best_c = c
+        if q < worst_q: # This is used for GRASP
+            worst_q = q
+            worst_c = c
 
-    return best_c
+    return best_c, best_q, worst_c, worst_q
 
 
 
@@ -134,6 +140,8 @@ def feseability(C, best_c):
       new_C.append(c)
   return new_C
 
+
+# ========== TOTAL COST ===========
 def totalCost(S, purchaseCost, energyCost):
     total_cost = 0.0
     for c in S:
@@ -141,5 +149,28 @@ def totalCost(S, purchaseCost, energyCost):
         energy = energyCost[c["k"]] * sum(c["pattern"])
         total_cost += purchase + energy
     return total_cost
+
+# ============================ AUX FUNCTIONS FOR LOCAL SEARCH ============================================
+def compute_covered(S):
+    covered = set()
+    for c in S:
+        covered |= c["covers"]
+    return covered
+
+# Compare cameras: We do not want to add the same camera that is already in S
+def is_same_camera(c1, c2):
+    return (
+        c1["i"] == c2["i"] and
+        c1["k"] == c2["k"] and
+        c1["pattern"] == c2["pattern"]
+    )
+
+# Funtion to know check if adding c_in and remove c_out respects the first Constraint
+# Constraint 1: At most 1 camera per crossing
+def valid_crossing_constraint(S_without, c_in):
+    used_crossings = {c["i"] for c in S_without}
+    return c_in["i"] not in used_crossings
+
+
 
 

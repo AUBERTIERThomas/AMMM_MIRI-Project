@@ -1,40 +1,11 @@
-from .greedy_solver import greedy
-from .aux_functions import init_C, is_solution, totalCost
-
-
-# ============================ AUX FUNCTIONS FOR LOCAL SEARCH ============================================
-def compute_covered(S):
-    covered = set()
-    for c in S:
-        covered |= c["covers"]
-    return covered
-
-# Compare cameras: We do not want to add the same camera that is already in S
-def is_same_camera(c1, c2):
-    return (
-        c1["i"] == c2["i"] and
-        c1["k"] == c2["k"] and
-        c1["pattern"] == c2["pattern"]
-    )
-
-# Funtion to know check if adding c_in and remove c_out respects the first Constraint
-# Constraint 1: At most 1 camera per crossing
-def valid_crossing_constraint(S_without, c_in):
-    used_crossings = {c["i"] for c in S_without}
-    return c_in["i"] not in used_crossings
-
-
-
+from .aux_functions import init_C, is_solution, totalCost, compute_covered, is_same_camera, valid_crossing_constraint
 
 # ================================== LOCAL SEARCH ===========================================================
-def localsearch(K, purchaseCost, R, A, energyCost, N, M, policy):
+def localsearch(K, purchaseCost, R, A, energyCost, N, M, policy, S):
     """
     policy == 0 --> First Improvement
     policy == 1 --> Best Improvement
     """
-    # Get an initial solution with greedy
-    S, _, _ = greedy(K, purchaseCost, R, A, energyCost, N, M)
-
     if S is None:
         # Greedy did not find any solution
         return None, None, None
