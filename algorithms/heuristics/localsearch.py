@@ -1,7 +1,7 @@
-from .aux_functions import init_C, is_solution, totalCost, compute_covered, is_same_camera, valid_crossing_constraint
+from .aux_functions import initCandidates, is_solution, totalCost, compute_covered, is_same_camera, valid_crossing_constraint
 
 # ================================== LOCAL SEARCH ===========================================================
-def localsearch(K, purchaseCost, R, A, energyCost, N, M, policy, S):
+def localsearch(K, P, R, A, E, N, M, policy, S):
     """
     policy == 0 --> First Improvement
     policy == 1 --> Best Improvement
@@ -11,7 +11,7 @@ def localsearch(K, purchaseCost, R, A, energyCost, N, M, policy, S):
         return None, None, None
 
     # All possible candidates
-    C_all = init_C(K, R, A, N, M)
+    C_all = initCandidates(K, R, A, N, M)
 
     # Apply fi when policy == 0, bi otherwise
     fi = (policy == 0)
@@ -20,7 +20,7 @@ def localsearch(K, purchaseCost, R, A, energyCost, N, M, policy, S):
     improved = True
     while improved:
         improved = False
-        current_cost = totalCost(S, purchaseCost, energyCost)
+        current_cost = totalCost(S, P, E)
 
         # Init for Best Improvement
         best_delta = 0.0    # delata only will be meaningful if it is greater than zero
@@ -34,7 +34,7 @@ def localsearch(K, purchaseCost, R, A, energyCost, N, M, policy, S):
             # For all possible candidates
             for c_in in C_all:
                 # If c_in is equal to c, we can SKIP since it is the camera that we removed
-                if any(is_same_camera(c_in, c) for c in S):
+                if any(is_same_camera(c_in, s) for s in S):
                     continue
 
                 # Check constraint so we can now if the new possible s respects it, if not, SKIP
@@ -52,8 +52,8 @@ def localsearch(K, purchaseCost, R, A, energyCost, N, M, policy, S):
                     continue
 
                 # Compute cost
-                new_cost = totalCost(S_neigh, purchaseCost, energyCost)
-                delta = current_cost - new_cost  # there is an improement if delta > 0
+                new_cost = totalCost(S_neigh, P, E)
+                delta = current_cost - new_cost  # there is an improvement if delta > 0
 
                 # Not improving, SKIP 
                 if delta <= 0:
@@ -82,6 +82,6 @@ def localsearch(K, purchaseCost, R, A, energyCost, N, M, policy, S):
 
     # Once there is nothing else to be improved --> leave while
     final_covered = compute_covered(S)
-    final_cost = totalCost(S, purchaseCost, energyCost)
+    final_cost = totalCost(S, P, E)
 
     return S, final_covered, final_cost

@@ -1,15 +1,26 @@
 from .aux_functions import (
-    init_C,
+    initCandidates,
     feseability,
     evaluate_quality,
     is_solution,
     totalCost,
 )
 
-def greedy(K, purchaseCost, R, A, energyCost, N, M):
+def greedy(K, P, R, A, E, N, M):
+  """
+  Docstring for greedy
+  
+  :param K: # camera model                          int
+  :param P: purchase cost                           array
+  :param R: array range of each camera model k      array
+  :param A: maximum consecutive operating days      array
+  :param E: energy cost                             array
+  :param N: # crossings                             int
+  :param M: distance between crossings              matrix 
+  """
 
   # ---------- 1) Init Candidates ----------
-  C = init_C(K, R, A, N, M)
+  C = initCandidates(K, R, A, N, M)
 
   # ---------- 2) Init solution set S ----------
   S = []                     # chosen cameras
@@ -20,7 +31,7 @@ def greedy(K, purchaseCost, R, A, energyCost, N, M):
   while (not is_solution(covered, N)) and C: # While is not ture
 
       # Evaluate q(c,S) for each c ∈ C
-      best_c, _, _, _ = evaluate_quality(C, covered, purchaseCost, energyCost)
+      best_c, _, _, _ = evaluate_quality(C, covered, P, E)
       
       if best_c is None:
           break # No possible candidate --> stop
@@ -49,7 +60,7 @@ def greedy(K, purchaseCost, R, A, energyCost, N, M):
   
   # If solution reached
   else:
-      total_cost = totalCost(S, purchaseCost, energyCost)
+      total_cost = totalCost(S, P, E)
       # print("Feasible Greedy!")
       return S, covered, total_cost 
 

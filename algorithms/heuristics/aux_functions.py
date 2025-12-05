@@ -1,6 +1,6 @@
 from itertools import product
 # ============================== INIT CANDIDATES =====================================
-def init_C(K, R, A, N, M):
+def initCandidates(K, R, A, N, M):
 
     C = []
 
@@ -79,7 +79,7 @@ def generate_patterns(A_k):
 
 
 # ============================== EVALUATE (+ SELECTION) FUNCTION =====================================
-def evaluate_quality(Candidates, covered, P, C):
+def evaluate_quality(Candidates, covered, P, E):
     best_c = None
     best_q = -1.0
 
@@ -95,9 +95,9 @@ def evaluate_quality(Candidates, covered, P, C):
             continue
 
         # Cost of this new candidate: purchase + energy * operational days
-        purchase_cost  = P[c["k"]]
-        operating_cost = C[c["k"]] * sum(c["pattern"])
-        cost = purchase_cost + operating_cost
+        purchaseCost  = P[c["k"]]
+        operatingCost = E[c["k"]] * sum(c["pattern"])
+        cost = purchaseCost + operatingCost
 
         q = gain / cost   # quality: we measure the quality of the candidate by dividing its gain by its total cost
 
@@ -142,12 +142,12 @@ def feseability(C, best_c):
 
 
 # ========== TOTAL COST ===========
-def totalCost(S, purchaseCost, energyCost):
+def totalCost(S, P, E):
     total_cost = 0.0
     for c in S:
-        purchase = purchaseCost[c["k"]]
-        energy = energyCost[c["k"]] * sum(c["pattern"])
-        total_cost += purchase + energy
+        purchaseCost = P[c["k"]]
+        operatingCost = E[c["k"]] * sum(c["pattern"])
+        total_cost += purchaseCost + operatingCost
     return total_cost
 
 # ============================ AUX FUNCTIONS FOR LOCAL SEARCH ============================================

@@ -48,7 +48,7 @@ def read_config(path):
 
 from pathlib import Path
 
-def write_solution(solution_path, S, covered, cost, i):
+def write_solution(solution_path, S, covered, cost, time, i, alpha):
     """
     Escribe una solución en formato (estilo OPL):
        x = [...];
@@ -66,17 +66,19 @@ def write_solution(solution_path, S, covered, cost, i):
             return
 
         # Write
-        if i == -1: # Forgive about iterations
-            for c in S:
-                f.write(f"Crossing {c['i']} , with camera model {c['k']},\noperates days: {c['pattern']},\ncovers (j, d): {c['covers']}\n\n")
-        else:
-            for c in S:
-                f.write(f"Crossing {c['i']} , with camera model {c['k']},\noperates days: {c['pattern']},\ncovers (j, d): {c['covers']}\nIterations: {i+1}\n")
 
+        for c in S:
+            f.write(f"Crossing {c['i']} , with camera model {c['k']},\noperates days: {c['pattern']},\ncovers (j, d): {c['covers']}\n\n")
+
+
+        if alpha != -1:
+            f.write(f"Alpha = {alpha};\n")
+            f.write(f"Iterations = {i};\n")   
 
 
         # Coste total
         f.write(f"Total cost = {cost};\n")
+        f.write(f"Execution time = {time};\n")
 
 
 # READ FILE

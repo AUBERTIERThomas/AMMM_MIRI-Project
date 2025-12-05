@@ -1,10 +1,10 @@
 from .greedy import greedy
 from .localsearch import localsearch
-from .aux_functions import init_C, is_solution, evaluate_quality, feseability, totalCost, compute_covered
+from .aux_functions import initCandidates, is_solution, evaluate_quality, feseability, totalCost, compute_covered
 import random
 
 
-def RCL(Candidates, covered, P, C, qmax, qmin, alpha):
+def RCL(Candidates, covered, P, E, qmax, qmin, alpha):
     # Init empty list
     rcl = [] 
 
@@ -14,9 +14,9 @@ def RCL(Candidates, covered, P, C, qmax, qmin, alpha):
         gain = len(c_covered)
 
         # Cost: how much do I cost?
-        purchase_cost  = P[c["k"]]
-        operating_cost = C[c["k"]] * sum(c["pattern"])
-        cost = purchase_cost + operating_cost
+        purchaseCost  = P[c["k"]]
+        operatingCost = E[c["k"]] * sum(c["pattern"])
+        cost = purchaseCost + operatingCost
 
         q = gain/cost # Quality
         threshold = qmax-alpha*(qmax-qmin) # q(c)≥ qmax-α(qmax-qmin)
@@ -28,9 +28,9 @@ def RCL(Candidates, covered, P, C, qmax, qmin, alpha):
     return rcl
 
 
-def doConstructionPhase(K, purchaseCost, R, A, energyCost, N, M, alpha):
+def doConstructionPhase(K, P, R, A, E, N, M, alpha):
     # ---------- Init as greedy ----------
-    C = init_C(K, R, A, N, M)
+    C = initCandidates(K, R, A, N, M)
     S = []                  
     covered = set()         
 
@@ -39,13 +39,13 @@ def doConstructionPhase(K, purchaseCost, R, A, energyCost, N, M, alpha):
     while (not is_solution(covered, N)) and C: # While is not ture
 
         # Evaluate q(c,S) for each c ∈ C
-        best_c, qmax, _, qmin = evaluate_quality(C, covered, purchaseCost, energyCost)
+        best_c, qmax, _, qmin = evaluate_quality(C, covered, P, E)
         
         if best_c is None:
             break # No possible candidate --> stop
         
         # Create Restricted Candidate List (RLC) and add them to the partial solution S
-        rcl = RCL(C, covered, purchaseCost, energyCost, qmax, qmin, alpha)
+        rcl = RCL(C, covered, P, E, qmax, qmin, alpha)
         
         if not rcl and best_c is not None:
             rcl.append(best_c)
@@ -72,13 +72,13 @@ def doConstructionPhase(K, purchaseCost, R, A, energyCost, N, M, alpha):
     
     # If solution reached
     else:
-        total_cost = totalCost(S, purchaseCost, energyCost)
+        total_cost = totalCost(S, P, E)
         # print("Feasible Greedy!")
         return S, covered, total_cost 
     
 
 
-def grasp(K, purchaseCost, R, A, energyCost, N, M, policy, maxIt, alpha):
+def grasp(K, P, R, A, E, N, M, policy, maxIt, alpha):
     
     # Init param
     Sbest = None
@@ -87,13 +87,13 @@ def grasp(K, purchaseCost, R, A, energyCost, N, M, policy, maxIt, alpha):
 
     for i in range(maxIt):
         # Construction phase above (slightly diffrent from greedy)
-        S, _, _ = doConstructionPhase(K, purchaseCost, R, A, energyCost, N, M, alpha)
+        S, _, _ = doConstructionPhase(K, P, R, A, E, N, M, alpha)
         
         # If no feasible solution in this iteration, try next one
         if S is None:
             continue
 
-        S, covers, cost = localsearch(K, purchaseCost, R, A, energyCost, N, M, policy, S)
+        S, covers, cost = localsearch(K, P, R, A, E, N, M, policy, S)
         
         # Save the best solution
         if cost < best_cost:
@@ -105,4 +105,4 @@ def grasp(K, purchaseCost, R, A, energyCost, N, M, policy, maxIt, alpha):
         print("GRASP could not find any feasible solution :(")
         return None, None, None
     else:
-        return Sbest, best_covers, best_cost, i
+        return Sbest, best_covers, best_cost

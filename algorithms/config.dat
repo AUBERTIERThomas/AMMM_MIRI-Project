@@ -1,17 +1,17 @@
 # ============= INSTANCE PATH ====================
-instancePath        = "instances/project.1.dat";
-solutionFile        = "solutions/bbb.sol";   # Output DAT file (solution) 
+instancePath        = "instances/instance10.dat";              # Input 
+solutionFile        = "solutions/instaces/instance10.sol";       # Output 
 
 # ================= SOLVER =======================
 solver              = "GRASP";          # Only suports Greedy or GRASP
 
 # ================= GRASP PARAMETERS =======================
-alpha               = 0.7;                 # Alpha parameter for the GRASP solver.
+alpha               = 0.1;                 # Alpha parameter for the GRASP solver.
 
 # ================= LOCAL SEARCH PARAMETERS =======================
 localSearch          = True;               # Enable local search?
 neighborhoodStrategy = "TaskExchange";      # Supported Neighborhoods: TaskExchange
-policy               = "BestImprovement";   # Supported Policies: FirstImprovement / BestImprovement
+policy               = "FirstImprovement";   # Supported Policies: FirstImprovement / BestImprovement
 
 # ============== MAX EXEC TIME ===================
 maxExecTime          = 60;

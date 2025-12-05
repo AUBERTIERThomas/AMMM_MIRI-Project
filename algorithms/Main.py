@@ -48,8 +48,9 @@ if solver == "Greedy" and not localSearch:
     exec_time = exec_time * 1000 # ms
     
     # save solution (even if it is not feasible)
-    i = -1 # We are not using iterations for this solver
-    write_solution(solution_file, S, covers, cost, i)
+    i = -1 
+    alpha = -1 # We are not using iterations for this solver
+    write_solution(solution_file, S, covers, cost, exec_time, i, alpha)
 
     if S is not None:
         print_solution(S)
@@ -80,7 +81,8 @@ elif solver == "Greedy" and localSearch:
 
     # save solution (even if it is not feasible)
     i = -1 # We are not using iterations for this solver
-    write_solution(solution_file, S, covers, cost, i)
+    alpha = -1
+    write_solution(solution_file, S, covers, cost, exec_time, i, alpha)
 
     if S is not None:
         print_solution(S)
@@ -100,10 +102,11 @@ elif solver == "GRASP":
         policy = 0
         print("\nError geting the policy, FirstImprovement is going to execute as the default one")
     
-    maxIt = 200 # TODO: Comparar GRASP con CPLEX para ver que maxIt poner, si vemos que aumentamos maxIt y no hay mejora paramos
+    # 5, 10, 25, 50, 100
+    maxIt = 50
 
     start = time.perf_counter()      # START TIME
-    S, covers, cost, i = grasp(K, P, R, A, C, N, M, policy, maxIt, alpha) 
+    S, covers, cost = grasp(K, P, R, A, C, N, M, policy, maxIt, alpha) 
     end = time.perf_counter()        # END TIME
 
     # Execution time
@@ -111,7 +114,7 @@ elif solver == "GRASP":
     exec_time = exec_time * 1000 # ms
 
     # save solution (even if it is not feasible)
-    write_solution(solution_file, S, covers, cost, i)
+    write_solution(solution_file, S, covers, cost, exec_time, maxIt, alpha)
     
     if S is not None:
         print_solution(S)
@@ -121,7 +124,7 @@ elif solver == "GRASP":
         print("Not feasible solution was faund for this data")
 
     print(f"\n=== Execution time: === \n{exec_time:.6f} ms")
-    print(f"\n=== Nº iterations: === \n{i + 1} (max iterations:",maxIt,")\n")
+    print(f"\n=== Nº iterations: === \n{maxIt}\n")
 
 else:
     print("The selected solver is not implemented yet :( \nTry another configuration please")
