@@ -1,5 +1,5 @@
-K = 20;
-N = 25;
+K = 50;
+N = 50;
 
 MinPrice = 10;
 MaxPrice = 100;

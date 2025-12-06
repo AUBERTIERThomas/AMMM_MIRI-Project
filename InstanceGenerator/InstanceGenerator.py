@@ -5,7 +5,7 @@ import sys
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 input_file_default = os.path.join(BASE_DIR, "config.dat")
-output_file_default = os.path.join(BASE_DIR, "..", "algorithms", "instances", "inst","instance10.dat")
+output_file_default = os.path.join(BASE_DIR, "..", "algorithms", "instances", "inst","instance50_2.dat")
 
 
 # Variables

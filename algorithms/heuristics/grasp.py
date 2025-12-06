@@ -36,7 +36,7 @@ def doConstructionPhase(K, P, R, A, E, N, M, alpha):
 
     
     # ---------- Greedy loop ----------
-    while (not is_solution(covered, N)) and C: # While is not ture
+    while (not is_solution(covered, N)) and C: # While is not true
 
         # Evaluate q(c,S) for each c ∈ C
         best_c, qmax, _, qmin = evaluate_quality(C, covered, P, E)

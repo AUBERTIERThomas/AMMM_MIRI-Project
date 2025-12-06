@@ -29,6 +29,7 @@ localSearch     = config.get("localSearch", False)
 ls_policy       = config.get("policy", "FirstImprovement")
 alpha           = config.get("alpha", 0.1) # Default alpha? 0.1?
 max_exec_time   = config.get("maxExecTime", 60) # Not sure how to stop when timeout
+maxIt  			= config.get("maxIt", 50) # For GRASP
 
 
 # ------------------- READ DATA -------------------
@@ -101,9 +102,6 @@ elif solver == "GRASP":
     else: 
         policy = 0
         print("\nError geting the policy, FirstImprovement is going to execute as the default one")
-    
-    # 5, 10, 25, 50, 100
-    maxIt = 50
 
     start = time.perf_counter()      # START TIME
     S, covers, cost = grasp(K, P, R, A, C, N, M, policy, maxIt, alpha) 
