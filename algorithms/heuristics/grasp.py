@@ -36,7 +36,7 @@ def doConstructionPhase(K, P, R, A, E, N, M, alpha):
 
     
     # ---------- Greedy loop ----------
-    while (not is_solution(covered, N)) and C: # While is not true
+    while (not is_solution(covered, N)) and C: # While is not ture
 
         # Evaluate q(c,S) for each c ∈ C
         best_c, qmax, _, qmin = evaluate_quality(C, covered, P, E)
@@ -78,7 +78,7 @@ def doConstructionPhase(K, P, R, A, E, N, M, alpha):
     
 
 
-def grasp(K, P, R, A, E, N, M, policy, maxIt, alpha):
+def grasp(K, P, R, A, E, N, M, ls, policy, maxIt, alpha):
     
     # Init param
     Sbest = None
@@ -87,13 +87,14 @@ def grasp(K, P, R, A, E, N, M, policy, maxIt, alpha):
 
     for i in range(maxIt):
         # Construction phase above (slightly diffrent from greedy)
-        S, _, _ = doConstructionPhase(K, P, R, A, E, N, M, alpha)
+        S, covers, cost = doConstructionPhase(K, P, R, A, E, N, M, alpha)
         
         # If no feasible solution in this iteration, try next one
         if S is None:
             continue
 
-        S, covers, cost = localsearch(K, P, R, A, E, N, M, policy, S)
+        if ls:
+            S, covers, cost = localsearch(K, P, R, A, E, N, M, policy, S)
         
         # Save the best solution
         if cost < best_cost:
