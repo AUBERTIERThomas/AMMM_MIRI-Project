@@ -5,7 +5,7 @@ import sys
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 input_file_default = os.path.join(BASE_DIR, "config.dat")
-output_file_default = os.path.join(BASE_DIR, "..", "algorithms", "instances", "test.dat")
+output_file_default = os.path.join(BASE_DIR, "..", "algorithms", "instances", "test.dat") # Output file path
 
 
 # Variables
@@ -117,4 +117,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()
