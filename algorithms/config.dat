@@ -10,6 +10,7 @@ solver              = "GRASP";          # Only suports Greedy or GRASP
 
 # ================= GRASP PARAMETERS =======================
 alpha               = 0.1;                 # Alpha parameter for the GRASP solver.
+maxIt         		 = 50;                   # Max iterations
 
 # ================= LOCAL SEARCH PARAMETERS =======================
 localSearch          = True;               # Enable local search?
@@ -19,5 +20,5 @@ policy               = "FirstImprovement";   # Supported Policies: FirstImprovem
 # ============== MAX EXEC TIME ===================
 maxExecTime          = 300;
 
-# ============== MAX ITERATIONS ===================
-maxIt         		 = 50;
+
+
