@@ -15,6 +15,10 @@
 │   │   ├── greedy.py
 │   │   ├── greedy_solver.py
 │   │   └── localsearch.py
+│   ├── instances/
+│   │   ├── ...
+│   ├── solutions/
+│   │   ├── ...
 │
 ├── cplex/
 │   ├── project.mod
