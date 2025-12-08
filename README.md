@@ -1,5 +1,4 @@
 # AMMM_MIRI-Project
-This repository contains tools for generating problem instances, solving them using heuristic algorithms, and evaluating an ILP formulation implemented in CPLEX.
 
 Project Structure:
 .
@@ -29,58 +28,41 @@ Project Structure:
 │
 └── README.md
 
-1. Instance Generation
+**1. Instance Generation**
   The folder InstanceGenerator contains the tools used to generate synthetic problem instances.
-
-Configuration
-- The file InstanceGenerator/config.dat allows the user to define the instances size.
+  Configuration:
+    - The file InstanceGenerator/config.dat allows the user to define the instances size.
 
 The generator automatically stores the resulting .dat files under:
   algorithms/instances/
 
-This location can be changed inside the instance generator code or configuration file.
+This location can be changed inside the instance generator code.
 
 Running the instance generator:
-  python InstanceGenerator/instanceGenerator.py
+  **python InstanceGenerator/instanceGenerator.py**
 
-2. Algorithms
+**2. Algorithms**
 
 All heuristic algorithms are located under algorithms/heuristics/.
-
 The implemented heuristics include:
 - Greedy constructive heuristic,
-- Local Search (First Improvement or Best Improvement),
-- GRASP (with configurable alpha parameter).
+- Local Search,
+- GRASP.
 
 
-3. Solver Configuration (Main config)
+**3. Solver Configuration (Main config)**
 The file algorithms/config.dat contains the main parameters used when running the solver:
-selection of the algorithm (Greedy, Local Search, GRASP),
+selection of the algorithm (Greedy, Local Search, GRASP), input/output file name and path,
+Local Search policy (FI or BI), GRASP-specific settings (alpha, maximum iterations),
 
-input/output file name and path,
-
-Local Search policy (FI or BI),
-
-GRASP-specific settings (alpha, maximum iterations),
-
-
-**Running the solver**
-python algorithms/Main.py
+Running the solver
+**python algorithms/Main.py**
 
 --> The solver reads all relevant settings from algorithms/config.dat.
 
 
-4. ILP Model (CPLEX)
+**4. ILP Model (CPLEX)**
 
 The folder cplex/ contains the exact ILP formulation of the problem:
-
 project.mod is the ILP model,
-
 test.dat is an example instance for testing.
-
-
-Summary
-Component	Purpose	How to run
-InstanceGenerator	Creates synthetic problem instances	python InstanceGenerator/instanceGenerator.py
-Heuristic solvers	Solves the optimization problem using Greedy, LS, or GRASP	python algorithms/Main.py
-CPLEX ILP model	Exact integer linear programming formulation	Load project.mod and .dat in CPLEX
