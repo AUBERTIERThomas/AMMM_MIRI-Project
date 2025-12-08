@@ -91,5 +91,3 @@ The folder `cplex/` contains the exact ILP formulation of the problem:
 
 - `project.mod`  → ILP model
 - `test.dat`     → example instance
-
-These files can be executed using IBM CPLEX Studio or the CPLEX command-line tools.
