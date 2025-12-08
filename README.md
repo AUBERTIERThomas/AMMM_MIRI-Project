@@ -1,7 +1,8 @@
 # AMMM_MIRI-Project
 
 ## Project Structure
-` ` `
+
+```
 .
 ├── InstanceGenerator/
 │   ├── config.dat
@@ -14,13 +15,6 @@
 │   │   ├── greedy.py
 │   │   ├── greedy_solver.py
 │   │   └── localsearch.py
-│   │
-│   ├── instances/      # input data files (auto-generated or custom)
-│   ├── solutions/      # output solution files
-│   │
-│   ├── Main.py
-│   ├── config.dat
-│   └── logger.py
 │
 ├── cplex/
 │   ├── project.mod
@@ -28,7 +22,8 @@
 │   └── README
 │
 └── README.md
-` ` `
+```
+
 
 ## 1. Instance Generation
 
