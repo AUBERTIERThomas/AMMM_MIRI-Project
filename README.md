@@ -1,6 +1,7 @@
 # AMMM_MIRI-Project
 
-Project Structure:
+## Project Structure
+
 .
 ├── InstanceGenerator/
 │   ├── config.dat
@@ -17,7 +18,7 @@ Project Structure:
 │   ├── instances/      # input data files (auto-generated or custom)
 │   ├── solutions/      # output solution files
 │   │
-│   ├── Main.py         # Main
+│   ├── Main.py
 │   ├── config.dat
 │   └── logger.py
 │
@@ -28,41 +29,67 @@ Project Structure:
 │
 └── README.md
 
-**1. Instance Generation**
-  The folder InstanceGenerator contains the tools used to generate synthetic problem instances.
-  Configuration:
-    - The file InstanceGenerator/config.dat allows the user to define the instances size.
+## 1. Instance Generation
 
-The generator automatically stores the resulting .dat files under:
-  algorithms/instances/
+The folder `InstanceGenerator` contains the tools used to generate synthetic input instances.
 
-This location can be changed inside the instance generator code.
+### Configuration
 
-Running the instance generator:
-  **python InstanceGenerator/instanceGenerator.py**
+The file `InstanceGenerator/config.dat` defines the characteristics and size of the generated instances (e.g., number of crossings, number of camera models, parameter ranges, etc.).
 
-**2. Algorithms**
+All generated `.dat` files are stored by default in:
 
-All heuristic algorithms are located under algorithms/heuristics/.
-The implemented heuristics include:
-- Greedy constructive heuristic,
-- Local Search,
-- GRASP.
+    algorithms/instances/
 
+This path can be changed inside the instance generator script or its configuration file.
 
-**3. Solver Configuration (Main config)**
-The file algorithms/config.dat contains the main parameters used when running the solver:
-selection of the algorithm (Greedy, Local Search, GRASP), input/output file name and path,
-Local Search policy (FI or BI), GRASP-specific settings (alpha, maximum iterations),
+### Running the instance generator
 
-Running the solver
-**python algorithms/Main.py**
+    python InstanceGenerator/instanceGenerator.py
 
---> The solver reads all relevant settings from algorithms/config.dat.
+## 2. Algorithms
 
+All heuristic methods are implemented in:
 
-**4. ILP Model (CPLEX)**
+    algorithms/heuristics/
 
-The folder cplex/ contains the exact ILP formulation of the problem:
-project.mod is the ILP model,
-test.dat is an example instance for testing.
+The available algorithms are:
+
+- **Greedy constructive heuristic**
+- **Local Search**
+- **GRASP**
+
+Input instances are read from:
+
+    algorithms/instances/
+
+Solutions are written to:
+
+    algorithms/solutions/
+
+These folders can be customised through the main configuration file.
+
+## 3. Solver Configuration
+
+The file `algorithms/config.dat` contains all settings required to run the solver, including:
+
+- selection of the algorithm (Greedy, Local Search, GRASP)
+- input and output file names and paths
+- Local Search policy (First Improvement or Best Improvement)
+- GRASP parameters (alpha, maximum iterations)
+- paths for instances and solutions
+
+### Running the solver
+
+    python algorithms/Main.py
+
+The solver automatically loads all parameters from `algorithms/config.dat`.
+
+## 4. ILP Model (CPLEX)
+
+The folder `cplex/` contains the exact ILP formulation of the problem:
+
+- `project.mod`  → ILP model
+- `test.dat`     → example instance
+
+These files can be executed using IBM CPLEX Studio or the CPLEX command-line tools.
