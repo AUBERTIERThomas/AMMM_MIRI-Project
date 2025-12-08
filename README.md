@@ -1,5 +1,13 @@
 # AMMM_MIRI-Project
 
+This project aims to use ILP, Greedy and GRASP algorithms in order to solve instances of the linear system described in `project.pdf`.
+
+Each method will then be compared on accuracy and execution time to identify the best one.
+
+## Collaborators
+
+Alba Soldevilla González, Thomas Aubertier
+
 ## Project Structure
 
 ```
@@ -28,7 +36,9 @@
 │   ├── test.dat
 │   └── README
 │
-└── README.md
+├── README.md
+│
+└── project.pdf
 ```
 
 
@@ -49,6 +59,8 @@ This path can be changed inside the instance generator script or its configurati
 ### Running the instance generator
 
     python InstanceGenerator/instanceGenerator.py
+
+(or `python3`)
 
 ## 2. Algorithms
 
@@ -86,6 +98,8 @@ The file `algorithms/config.dat` contains all settings required to run the solve
 
     python algorithms/Main.py
 
+(or `python3`)
+
 The solver automatically loads all parameters from `algorithms/config.dat`.
 
 ## 4. ILP Model (CPLEX)
@@ -94,3 +108,5 @@ The folder `cplex/` contains the exact ILP formulation of the problem:
 
 - `project.mod`  → ILP model
 - `test.dat`     → example instance
+
+Note : It does not contains the CPLEX project. It must be created separately.
